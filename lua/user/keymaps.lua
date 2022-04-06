@@ -67,8 +67,11 @@ keymap("x", "<A-k>", ":move '<-2<CR>gv-gv", opts)
 -- keymap("t", "<C-k>", "<C-\\><C-N><C-w>k", term_opts)
 -- keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
 
+
+-- File save --
 keymap("n", "<C-s>", ":w<CR>", opts)
 keymap("i", "<C-s>", "<Esc>:w<CR>a", opts)
+
 -- Easymotions type binding
 keymap('n', 'f', "<cmd>lua require'hop'.hint_char2({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = false})<cr>", opts)
 keymap('n', 'F', "<cmd>lua require'hop'.hint_char2({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = false})<cr>", opts)

@@ -33,6 +33,8 @@ local options = {
   scrolloff = 8,                           -- is one of my fav
   sidescrolloff = 8,
   guifont = "monospace:h17",               -- the font used in graphical neovim applications
+  spell = true,                             -- Enabling for spell
+  spelllang = { 'en_us' }
 }
 
 vim.opt.shortmess:append "c"

@@ -61,7 +61,7 @@ return packer.startup(function(use)
 
 	-- Colorschemes
 	-- use "lunarvim/colorschemes" -- A bunch of colorschemes you can try out
-	use("lunarvim/darkplus.nvim")
+	use("martinsione/darkplus.nvim")
 
 	-- cmp plugins
 	use("hrsh7th/nvim-cmp") -- The completion plugin
@@ -115,27 +115,71 @@ return packer.startup(function(use)
 
 	-- Test runners
 	use({
-		"rcarriga/vim-ultest",
-		requires = { "vim-test/vim-test" },
+		"nvim-neotest/neotest",
 		opt = true,
-		keys = { "<leader>t" },
-		cmd = {
-			"TestNearest",
-			"TestFile",
-			"TestSuite",
-			"TestLast",
-			"TestVisit",
-			"Ultest",
-			"UltestNearest",
-			"UltestDebug",
-			"UltestLast",
-			"UltestSummary",
+		wants = {
+			"plenary.nvim",
+			"nvim-treesitter",
+			"FixCursorHold.nvim",
+			"neotest-python",
+			"neotest-plenary",
+			"neotest-go",
+			"neotest-jest",
+			"neotest-vim-test",
 		},
-		module = "ultest",
-		run = ":UpdateRemotePlugins",
+		requires = {
+			"nvim-lua/plenary.nvim",
+			"nvim-treesitter/nvim-treesitter",
+			"antoinemadec/FixCursorHold.nvim",
+			"nvim-neotest/neotest-python",
+			"nvim-neotest/neotest-plenary",
+			"nvim-neotest/neotest-go",
+			"haydenmeade/neotest-jest",
+			"nvim-neotest/neotest-vim-test",
+			"vim-test/vim-test",
+		},
+		module = { "neotest" },
+		config = function()
+			require("user.neotest").setup()
+		end,
 	})
+	-- vim-go
+	use({ "fatih/vim-go", run = ":GoUpdateBinaries" })
 
-	-- Automatically set up your configuration after cloning packer.nvim
+	-- Debugging
+	use({
+		"microsoft/vscode-js-debug",
+		opt = true,
+		run = "npm install --legacy-peer-deps && npm run compile",
+	})
+	use({
+		"mfussenegger/nvim-dap",
+		opt = true,
+		event = "BufReadPre",
+		module = { "dap" },
+		wants = {
+			"nvim-dap-virtual-text",
+			"DAPInstall.nvim",
+			"nvim-dap-ui",
+			"nvim-dap-python",
+			"which-key.nvim",
+			"nvim-dap-go",
+			"nvim-dap-vscode-js",
+		},
+		requires = {
+			"xbc5/DAPInstall.nvim",
+			"theHamsta/nvim-dap-virtual-text",
+			"rcarriga/nvim-dap-ui",
+			"mfussenegger/nvim-dap-python",
+			"nvim-telescope/telescope-dap.nvim",
+			{ "leoluz/nvim-dap-go", module = "dap-go" },
+			{ "jbyuki/one-small-step-for-vimkind", module = "osv" },
+			{ "mxsdev/nvim-dap-vscode-js" },
+		},
+		config = function()
+			require("user.debugger").setup()
+		end,
+	}) -- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins
 	if PACKER_BOOTSTRAP then
 		require("packer").sync()
